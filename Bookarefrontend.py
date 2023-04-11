@@ -160,7 +160,7 @@ def open_add_new_category():
     global newCategoryWindow
     newCategoryWindow = Toplevel(window)
     newCategoryWindow.title("Προσθήκη νέας κατηγορίας βιβλίου")
-    newCategoryWindow.geometry("500x200")
+    newCategoryWindow.geometry("700x400")
   
     lblcat_desc = Label(newCategoryWindow,text = "Περιγραφή κατηγορίας")
     lblcat_desc.grid(row = 1, column = 0, padx=20, pady=10)
@@ -1188,7 +1188,7 @@ def generateReport():
     if reportchoosen.get() == 'Μέλη βιβλιοθήκης':
         Reports.reportAllMembers()
     elif reportchoosen.get() == 'Βιβλία':
-        Reports.reportAllBooksB()
+        Reports.reportAllBooks()
     elif reportchoosen.get() == 'Ιστορικό δανεισμού βιβλίου':
         Reports.reportBookHistory(bookid_selected,bookCredentials_selected)
     elif reportchoosen.get() == 'Ιστορικό δανεισμού μέλους':

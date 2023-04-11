@@ -6,7 +6,23 @@ def connect():
     # create and connect to SQlite database. 
     conn = sqlite3.connect("BookareDB.db")
     cur = conn.cursor()
-    cur.execute("CREATE TABLE IF NOT EXISTS Book_category (id INTEGER NOT NULL,Description TEXT(100),Abbreviation VARCHAR(25),PRIMARY KEY (id))")
+    #cur.execute("CREATE TABLE IF NOT EXISTS Book_category (id INTEGER NOT NULL,Description TEXT(100),Abbreviation VARCHAR(25),PRIMARY KEY (id))")
+   
+   # Check if the table exists and has any rows
+    result = conn.execute('''SELECT count(*) FROM sqlite_master WHERE type='table' AND name='Book_category' ''').fetchone()
+    table_exists = result[0] > 0
+
+    if not table_exists:
+    # Create the table and insert a single row of data
+        conn.execute("CREATE TABLE IF NOT EXISTS Book_category (id INTEGER NOT NULL,Description TEXT(100),Abbreviation VARCHAR(25),PRIMARY KEY (id))")
+        conn.execute('''INSERT INTO Book_category (id,Description,Abbreviation) VALUES (1,'Σχολικά βιβλία','ΣΧΛ')''')
+        #conn.commit()
+        print("Table created and data inserted successfully.")
+    else:
+    # Table already exists, do nothing
+        print("Table already exists. No changes made.")
+
+    #cur.execute("INSERT INTO Book_category(id,Description, Abbreviation ) VALUES (1, 'Σχολικά βιβλία','ΣΧΛ')")
     cur.execute("CREATE TABLE IF NOT EXISTS Bookings (Member_id INTEGER, Book_id INTEGER, Start_date TEXT(25), End_date TEXT(25), Booking_id INTEGER NOT NULL, PRIMARY KEY (Booking_id) FOREIGN KEY (Member_id) REFERENCES Member(id), FOREIGN KEY (Book_id) REFERENCES Books(id))")
     cur.execute("CREATE TABLE IF NOT EXISTS Books (id INTEGER NOT NULL, ISBN VARCHAR(25), Dewey_number VARCHAR(25),Title TEXT(200),Category_id INTEGER,Description TEXT(500),Writer TEXT(200), Publications TEXT(200),Year INTEGER,Publication_number INTEGER,Write_date TEXT(25),Buy_date TEXT(25),Price REAL, Pages INTEGER, Shelf_code VARCHAR(25),Active INTEGER,Total_books INTEGER DEFAULT 1, Available_books INTEGER DEFAULT 1, PRIMARY KEY (id),FOREIGN KEY(Category_id) REFERENCES Book_category(id) )")
     cur.execute("CREATE TABLE IF NOT EXISTS Member (id INTEGER NOT NULL, Name VARCHAR(25), Surname VARCHAR(50), Birthdate TEXT(25), Telephone_number VARCHAR(25), Mobile_number VARCHAR(25), Address VARCHAR(50), City VARCHAR(25), Po_box VARCHAR(10), Email VARCHAR(50), Facebook VARCHAR(50), Instagram VARCHAR(50), Active INTEGER, PRIMARY KEY (id))")

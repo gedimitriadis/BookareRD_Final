@@ -1,5 +1,7 @@
 # -*- mode: python ; coding: utf-8 -*-
 
+from PyInstaller.utils.hooks import collect_data_files
+from PyInstaller.utils.hooks import collect_submodules
 
 block_cipher = None
 
@@ -7,8 +9,8 @@ block_cipher = None
 a = Analysis(['Bookarefrontend.py'],
              pathex=[],
              binaries=[],
-             datas=[('/templates/ReportTemplate.html','.')],
-             hiddenimports=[],
+             datas=collect_data_files('templates'),
+             hiddenimports=collect_submodules('Bookarefrontend'),
              hookspath=[],
              hooksconfig={},
              runtime_hooks=[],
